@@ -1,6 +1,6 @@
 #! /bin/bash
 #
-# Run script for flywheel/fetalsvrtk-bounti-segmentation Gear.
+# Run script for flywheel/svrtk-fetal-brain-segmentation Gear.
 #
 # Authorship: Niall bourke and Doug Dean
 #
@@ -12,7 +12,7 @@ FLYWHEEL_BASE=/flywheel/v0
 INPUT_DIR=$FLYWHEEL_BASE/input/
 OUTPUT_DIR=$FLYWHEEL_BASE/output
 CONFIG_FILE=$FLYWHEEL_BASE/config.json
-CONTAINER='[flywheel/fetalsvrtk-bounti-segmentation]'
+CONTAINER='[flywheel/svrtk-fetal-brain-segmentation]'
 WORK=/flywheel/v0/work
 mkdir -p ${WORK}
 
@@ -37,19 +37,19 @@ config_output_nifti="$(parse_config 'output_nifti')"
 ##############################################################################
 # Handle INPUT files
 
-echo "${CONTAINER}  Running BOUNTI segmentation algorithm"
+echo "${CONTAINER}  Running auto-brain-bounti-segmentation-fetal algorithm"
 
 # Set initial exit status
 mri_svrtk_exit_status=0
 
 # Find input file In input directory with the extension
 # .nii, .nii.gz
-svr_input_file=`find $INPUT_DIR/reo -iname '*.nii' -o -iname '*.nii.gz'`
+input=`find $INPUT_DIR/input -iname '*.nii' -o -iname '*.nii.gz'`
 
 # Check that input file exists
-if [[ -e $svr_input_file ]]; then
-    echo "${CONTAINER}  Input file found: ${svr_input_file}"
-    cp ${axi_input_file} ${WORK}/SVRTK-T2w.nii.gz
+if [[ -e $input ]]; then
+    echo "${CONTAINER}  Input file found: ${input}"
+    cp ${input} ${WORK}/
 else
     echo "${CONTAINER} WARNING: Missing one or more Nifti inputs within input directory $INPUT_DIR"
 #   echo "${CONTAINER} Exiting..."
@@ -61,8 +61,9 @@ if [ "$(ls -A $WORK)" ]; then
     echo "WORK directory contents:"
     echo "$(ls -l $WORK)"
 
-    echo "Running BOUNTI segmentation..."
-    bash /home/auto-proc-svrtk/auto-brain-bounti-segmentation-fetal.sh $WORK $OUTPUT_DIR 
+    echo "Running brain-segmentation..."
+    bash /home/auto-proc-svrtk/auto-brain-bounti-segmentation-fetal.sh $WORK $OUTPUT_DIR
+    
     mri_svrtk_exit_status=$?
 else
     echo "WORK directory is empty"

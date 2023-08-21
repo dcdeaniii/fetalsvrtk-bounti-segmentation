@@ -1,13 +1,14 @@
 {
-    "author": "Doug Dean",
-    "cite": "",
+    "author": "Doug Dean and Niall Bourke",
+    "cite": "BOUNTI: Brain vOlumetry and aUtomated parcellatioN for 3D feTal MRI; Alena U. Uus, Vanessa Kyriakopoulou, Antonios Makropoulos, Abi Fukami-Gartner, Daniel Cromb, Alice Davidson, Lucilio Cordero-Grande, Anthony N. Price, Irina Grigorescu, Logan Z. J. Williams, Emma C. Robinson, David Lloyd, Kuberan Pushparajah, Lisa Story, Jana Hutter, Serena J. Counsell, A. David Edwards, Mary A. Rutherford, Joseph V. Hajnal, Maria Deprez; bioRxiv 2023.04.18.537347; doi: https://doi.org/10.1101/2023.04.18.537347",
     "command": "python3 /flywheel/v0/run.py",
+    "config": {},
     "custom": {
         "analysis-level": "participant",
         "flywheel": {
             "classification": {
                 "components": [
-                    "bounti"
+                    "SVRTK"
                 ],
                 "keywords": [
                     "segmentation",
@@ -25,7 +26,7 @@
         },
         "gear-builder": {
             "category": "analysis",
-            "image": "flywheel/fetalsvrtk-segmentation:bounti_brain_tissue_1.00"
+            "image": "flywheel/svrtk-fetal-brain-segmentation:0.0.1"
         },
         "kcl-app-binary": "app/main.sh",
         "kcl-app-modalities": [
@@ -39,37 +40,35 @@
             "non-commercial-use-only": false
         }
     },
-    "description": "(UNDER DEVELOPMENT) - The mirtk segmentation tool performs AI based segmentation of 3D SVR T2w images",
+    "description": "An automated pipeline for fetal brain tissue segmentation (19 ROIs) for 3D SVR-reconstructed fetal brain MRI based on MONAI. \n The conditions for successful performance are (it won't work otherwise): \n 1. A good image quality (clear visibility of all features, high SNR and smooth texture (not grainy), no extreme bias field artifacts) \n 2. reorientation to the standard radiological atlas space \n 3. full brain coverage \n 4. 21 - 36 week GA \n 5. no extreme structural anomalies",
     "environment": {
         "CONDA_DIR": "/opt/conda",
         "FLYWHEEL": "/flywheel/v0",
         "GPG_KEY": "E3FF2839C048B25C084DEBE9B26995E310250568",
         "LANG": "C.UTF-8",
-        "PATH": "/root/miniconda3/bin/:/home:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "PATH": "/usr/local/freesurfer/bin:/usr/local/freesurfer/fsfast/bin:/usr/local/freesurfer/tktools:/usr/local/freesurfer/mni/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
         "PYTHON_GET_PIP_SHA256": "fa6f3fb93cce234cd4e8dd2beb54a51ab9c247653b52855a48dd44e6b21ff28b",
         "PYTHON_GET_PIP_URL": "https://github.com/pypa/get-pip/raw/c20b0cfd643cd4a19246ccf204e2997af70f6b21/public/get-pip.py",
         "PYTHON_PIP_VERSION": "21.2.3",
         "PYTHON_VERSION": "3.8.11",
-        "container": "oci",
-        "TOOLS": "/home/",
-        "PYTHONPATH": "/root:"
+        "container": "oci"
     },
     "inputs": {
         "api-key": {
             "base": "api-key",
             "read-only": true
         },
-        "svr-t2w": {
+        "input": {
             "base": "file",
-            "optional": false,
-            "description": "3D SVR T2w image (output from SVRTK)"
+            "description": "input file (usually isotropic reconstruction)",
+            "optional": false
         }
     },
-    "label": "fetalsvrtk-bounti-segmentation",
+    "label": "svrtk-fetal-brain-segmentation",
     "license": "MIT",
     "maintainer": "Niall Bourke <niall.bourke@kcl.ac.uk>",
-    "name": "fetalsvrtk-bounti-segmentation",
+    "name": "svrtk-fetal-brain-segmentation",
     "source": "https://hub.docker.com/r/fetalsvrtk/segmentation",
     "url": "https://hub.docker.com/r/fetalsvrtk/segmentation",
-    "version": "0.1.2"
+    "version": "0.0.1"
 }
